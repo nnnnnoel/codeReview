@@ -1,12 +1,11 @@
 
-//__initData´Â ¼­¹ö»çÀÌµå(php)¿¡¼­ °¡Á®¿Â µ¥ÀÌÅÍÀÔ´Ï´Ù. // var __initData = <?=json_encode($arVal)?>
+//__initDataëŠ” ì„œë²„ì‚¬ì´ë“œ(php)ì—ì„œ ê°€ì ¸ì˜¨ ë°ì´í„°ì…ë‹ˆë‹¤. // var __initData = <?=json_encode($arVal)?>
 $(function(){
 
     var qVoiceGemList = new QVoiceGemList({ });
-    var isFlag = true; //½ºÅ©·Ñ Á¦¾î ÇÃ·¡±×
+    var isFlag = true; //ìŠ¤í¬ë¡¤ ì œì–´ í”Œë˜ê·¸
 
-    /*ÀÎÅÍÆäÀÌ½º*/
-    window.addEventListener('scroll',_.throttle(function () { //½ºÅ©·Ñ ¸Ç ¹Ø
+    window.addEventListener('scroll',_.throttle(function () { //ìŠ¤í¬ë¡¤ ë§¨ ë°‘
         if((window.scrollY+window.innerHeight) >= (document.body.scrollHeight-50)){
             if(!!isFlag){
                 isFlag = false;
@@ -16,8 +15,8 @@ $(function(){
         }
     },100));
 
-    $(".selection_del").click(function(){qVoiceGemList.elDelete()}) //¼±ÅÃ »èÁ¦ ´­·¶À» ¶§
-    $("#choice").click(function (){qVoiceGemList.elSelect(this)}) //ÀüÃ¼ ¼±ÅÃ
+    $(".selection_del").click(function(){qVoiceGemList.elDelete()}) //ì„ íƒ ì‚­ì œ ëˆŒë €ì„ ë•Œ
+    $("#choice").click(function (){qVoiceGemList.elSelect(this)}) //ì „ì²´ ì„ íƒ
 })
 
 function QVoiceGemList(customCfg){
@@ -45,54 +44,54 @@ function QVoiceGemList(customCfg){
                    <td class="bold number ${data.mem_chng_slct === '+' ? 'plus' : 'minus'}">${data.mem_chng_slct}${data.mem_jewel}</td>
                    </tr>`
                    },
-        noGem :     `<p class="sign_empty">
+        noGem       : `<p class="sign_empty">
                             <img src=\"http://image\">
-                            <span class=\"txtmsg\">º¸¼®³»¿ªÀÌ ¾ø½À´Ï´Ù.</span>
+                            <span class=\"txtmsg\">ë³´ì„ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.</span>
                       </p>`
      };
 
     if(!!customCfg && typeof customCfg === 'object') { Object.assign(gemListCfg, customCfg);}
     var fn = this;
 
-    //»èÁ¦
+    //ì‚­ì œ
     this.elDelete = function(){
         if(_.size( $('.chk_click:checked')) ){
-            $.confirmEx('¼±ÅÃÇÑ ³»¿ªÀ» »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î?',{callback2:function(){
+            $.confirmEx('ì„ íƒí•œ ë‚´ì—­ì„ ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?',{callback2:function(){
 
-                fn.reqSlctDel(); //»èÁ¦¿äÃ»
+                fn.reqSlctDel(); //ì‚­ì œìš”ì²­
                 gemListCfg["inputTarget"].html(gemListCfg["inputTarget"].children()[0]);
 
-                var gemListData = fn.getListData(fn.jsonCall,{ //¸®½ºÆ® µ¥ÀÌÅÍ °¡Á®¿À±â
+                var gemListData = fn.getListData(fn.jsonCall,{ //ë¦¬ìŠ¤íŠ¸ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
                     actMode:"gemList",
                     useMethod:"getGemList",
                     slct:__initData.slct,
                     pageNo:1,
                     pagePerCnt:__initData.pagePerCnt
                 });
-                if(_.isEmpty(gemListData)) {$("body").append(gemListCfg["noGem"]); return}; //¸®½ºÆ® µ¥ÀÌÅÍ ¾øÀ¸¸é ÁßÁö
+                if(_.isEmpty(gemListData)) {$("body").append(gemListCfg["noGem"]); return}; //ë¦¬ìŠ¤íŠ¸ ë°ì´í„° ì—†ìœ¼ë©´ ì¤‘ì§€
 
-                var template = fn.makeTemplate(gemListCfg["template"],gemListData) // ÅÛÇÃ¸´ ¸¸µé±â
-                gemListCfg["inputTarget"].append(template); //³Ö±â
-                $.toast("¼º°øÀûÀ¸·Î »èÁ¦ µÇ¾ú½À´Ï´Ù.");
+                var template = fn.makeTemplate(gemListCfg["template"],gemListData) // í…œí”Œë¦¿ ë§Œë“¤ê¸°
+                gemListCfg["inputTarget"].append(template); //ë„£ê¸°
+                $.toast("ì„±ê³µì ìœ¼ë¡œ ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
             }})
-        }  else{$.alertEx('»èÁ¦ ÇÏ½Ç ³»¿ªÀ» ÇÑ°³ÀÌ»ó</br>¼±ÅÃÇØÁÖ¼¼¿ä')}
+        }  else{$.alertEx('ì‚­ì œ í•˜ì‹¤ ë‚´ì—­ì„ í•œê°œì´ìƒ</br>ì„ íƒí•´ì£¼ì„¸ìš”')}
     },
 
-    //½ºÅ©·Ñ ¸Ç³¡
+    //ìŠ¤í¬ë¡¤ ë§¨ë
     this.scrollEnd = function scrollEnd(){
 
-        var gemListData = vm.getListData(vm.jsonCall,{ //¸®½ºÆ® µ¥ÀÌÅÍ °¡Á®¿À±â
+        var gemListData = vm.getListData(vm.jsonCall,{ //ë¦¬ìŠ¤íŠ¸ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
             actMode:"gemList",
             useMethod:"getGemList",
             slct:__initData.slct,
             pageNo:gemListCfg["pageNo"],
             pagePerCnt:__initData.pagePerCnt
-        }).filter(function(current){  // Áßº¹Ã¼Å©
+        }).filter(function(current){  // ì¤‘ë³µì²´í¬
             return gemListCfg["inputTarget"].find("#choice_"+current["auto_no"]).val() !== current["auto_no"];
         });
 
-        if(!_.isEmpty(gemListData)) {$.toast("¸¶Áö¸· ÆäÀÌÁö ÀÔ´Ï´Ù"); return};
+        if(!_.isEmpty(gemListData)) {$.toast("ë§ˆì§€ë§‰ í˜ì´ì§€ ì…ë‹ˆë‹¤"); return}; //ë¦¬ìŠ¤íŠ¸ ë°ì´í„° ì—†ìœ¼ë©´ ì¤‘ì§€
 
         var template = vm.makeTemplate(gemListCfg["template"],gemListData);
 
@@ -100,7 +99,7 @@ function QVoiceGemList(customCfg){
         gemListCfg["pageNo"]++;
     }
     
-    //ÀüÃ¼ ¼±ÅÃ
+    //ì „ì²´ ì„ íƒ
     this.elSelect = function elSelect(el){
         if(el.checked) {
             $('.chk_click').attr('checked','checked');
@@ -110,13 +109,13 @@ function QVoiceGemList(customCfg){
     }
 }
 
-/**±¸Çö ¸Ş¼Òµå**/
-QVoiceGemList.prototype.reqSlctDel = function(){ //»èÁ¦¿äÃ»
+/**êµ¬í˜„ ë©”ì†Œë“œ**/
+QVoiceGemList.prototype.reqSlctDel = function(){ //ì‚­ì œìš”ì²­
     var $slctItem = $('.chk_click:checked');
     this.jsonCall({actMode:"gemList",useMethod:"slctDel",slct:__initData.slct,logNo: _.map($slctItem,'value').join(',')})
 }
 
-QVoiceGemList.prototype.getListData = function(ajax,param){ //¸®½ºÆ® °¡Á®¿À±â
+QVoiceGemList.prototype.getListData = function(ajax,param){ //ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
     var rtnAjaxData = this.jsonCall(param).responseText;
     return JSON.parse(rtnAjaxData)[1];
 
@@ -128,10 +127,10 @@ QVoiceGemList.prototype.jsonCall = function(param) {
             dataType: 'json',
             url: '/',
             data: param,
-            async:false, //µ¿±âÃ³¸®
+            async:false, //ë™ê¸°ì²˜ë¦¬
             timeout: 10000
         }) .fail(function(){
-            $.alertEx('¼­¹ö ³»ºÎ ¿À·ù°¡ ¹ß»ıµÇ¾ú½À´Ï´Ù.');
+            $.alertEx('ì„œë²„ ë‚´ë¶€ ì˜¤ë¥˜ê°€ ë°œìƒë˜ì—ˆìŠµë‹ˆë‹¤.');
         });
 };
 
